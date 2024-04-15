@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>RobloxApp</title>
+<style>
+    html,body {
+        background: #000;
+        margin: 0;
+        padding: 0;
+    }
+    #canvas {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: block;
+        z-index: 99;
+    }
+    p.loading-text {
+        color: #fff;
+        text-align: center;
+        margin-top: 10px;
+        font-family: sans-serif;
+    }
+    div.disclaimer-card {
+        width: 100%;
+        max-width: 800px;
+        display: block;
+        margin: 10px auto;
+        font-family: sans-serif;
+        color: #fff;
+    }
+    h1.disclaimer-header {
+        text-align: left;
+    }
+    p.disclaimer-text {
+        text-align: left;
+    }
+    p.accept-button {
+        background: #34eb58;
+        padding: 5px 10px;
+        color: #000;
+        display: inline;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    a,a:visited {
+        color: #007cff;
+        text-decoration: none;
+    }
+    li {
+        margin-bottom: 8px;
+    }
+    .focal {
+        /* font-weight: 600; */
+        text-decoration: underline;
+    }
+    input#mobile-text-input {
+        display: none;
+        opacity: 1;
+        z-index: -1;
+        position: absolute;
+        border: none!important;
+        outline: none!important;
+    }
+    input#mobile-text-input:focus-visible {
+        border: none!important;
+        outline: none!important;
+    }
+    </style>
+</head>
+<body>
+<input id="mobile-text-input" type="text" />
+<script type="text/javascript">
+/*
+From https://github.com/GoogleChromeLabs/wasm-feature-detect
+License: https://github.com/GoogleChromeLabs/wasm-feature-detect/blob/5f715f923cd2f57bf2a07f3fbfc248ff72d68f41/LICENSE
+ */
+!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n():"function"==typeof define&&define.amd?define(n):(e=e||self).wasmFeatureDetect=n()}(this,function(){"use strict";return{bigInt:()=>(async e=>{try{return(await WebAssembly.instantiate(e)).instance.exports.b(BigInt(0))===BigInt(0)}catch(e){return!1}})(new Uint8Array([0,97,115,109,1,0,0,0,1,6,1,96,1,126,1,126,3,2,1,0,7,5,1,1,98,0,0,10,6,1,4,0,32,0,11])),bulkMemory:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,5,3,1,0,1,10,14,1,12,0,65,0,65,0,65,0,252,10,0,0,11])),exceptions:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,10,8,1,6,0,6,64,25,11,11])),multiValue:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,6,1,96,0,2,127,127,3,2,1,0,10,8,1,6,0,65,0,65,0,11])),mutableGlobals:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,2,8,1,1,97,1,98,3,127,1,6,6,1,127,1,65,0,11,7,5,1,1,97,3,1])),referenceTypes:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,10,7,1,5,0,208,112,26,11])),saturatedFloatToInt:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,10,12,1,10,0,67,0,0,0,0,252,0,26,11])),signExtensions:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,10,8,1,6,0,65,0,192,26,11])),simd:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,5,1,96,0,1,123,3,2,1,0,10,10,1,8,0,65,0,253,15,253,98,11])),tailCall:async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,10,6,1,4,0,18,0,11])),threads:()=>(async e=>{try{return"undefined"!=typeof MessageChannel&&(new MessageChannel).port1.postMessage(new SharedArrayBuffer(1)),WebAssembly.validate(e)}catch(e){return!1}})(new Uint8Array([0,97,115,109,1,0,0,0,1,4,1,96,0,0,3,2,1,0,5,4,1,3,1,1,10,11,1,9,0,65,0,254,16,2,0,26,11]))}});
+</script>
+<script type="text/javascript">
+    var didInitialize = false;
+    var Module = {
+        canvas: null,
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // DO NOT SEND ANYTHING ON THIS PAGE TO ANYONE - YOUR ACCOUNT COULD GET STOLEN
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        joinScript: "https://economy-simulator.com/placelauncher.ashx?ticket=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ0IjoiR2FtZUpvaW5UaWNrZXRWMS4xIiwidXNlcklkIjoxMTE2NiwicGxhY2VJZCI6NDg4MywiaXAiOiIkYXJnb24yaWQkdj0xOSRtPTMyNzY4LHQ9NCxwPTEkZTZhRHhvaVQ3WDlETEEvV2xmQ0pidyRWTXVQSlx1MDAyQm11UGUwcXY4NzJnNUlLb0JWQ0hLS2xTT0YvdXl3ejVOSHd1SmciLCJpYXQiOjE2NjUzNzMxODV9.i2qhjEeCKBTDBAo2gNkCUeXE3PX-VjLZNqIg-aWVlm0cyUuTNwaFMgmnBNr7L-1GVFTK3Sr0aN-KMfxdYd863g",
+        yearSelection: "2016",
+        onRuntimeInitialized: function() {
+            didInitialize = true;
+            var textEl = document.getElementsByClassName('loading-text')[0];
+            if (!textEl) return;
+            textEl.remove();
+        },
+        showKeyboard: function () {
+            var el = document.getElementById('mobile-text-input');
+            el.setAttribute("style", "display: block;");
+            el.select();
+        },
+        hideKeyboard: function () {
+            document.getElementById('mobile-text-input').setAttribute("style", "display: none;");
+        },
+    };
+    window.RBXModule = window.RBXModule || Module;
+
+    var disclaimerViewed = window.localStorage.getItem("disclaimer-notice") === "true,2";
+    var body = document.getElementsByTagName("body")[0];
+    function RBX_startGame() {
+        var loadingMessage = document.createElement("p");
+        loadingMessage.setAttribute("class", "loading-text");
+        loadingMessage.innerText = "Loading ROBLOX. This might take a minute depending on your internet connection, server load, and other factors.";
+        body.append(loadingMessage);
+
+        var canvas = document.createElement("canvas");
+        canvas.setAttribute("id", "canvas");
+        canvas.oncontextmenu = function (e) {
+            // some games may have their own context menu, or just require a right click for some reason
+            e.preventDefault();
+        }
+        body.append(canvas);
+        Module.canvas = canvas;
+
+        var script = document.createElement("script");
+        script.setAttribute("src", "WebPlayer.js");
+        body.append(script);
+    }
+    
+    var featureErrorMessages = {
+        errDuringDetection: "There was an error detecting supported features by your browser. The game may still work, although it is unlikely.",
+        simd: "Does not support SIMD.",
+        atomics: "Does not support Atomics.",
+        bulkMemory: "Does not support bulk memory operations.",
+    };
+    function RBX_featureCheck() {
+        // let's hope another spectre doesn't happen!
+        try {
+            var alreadyChecked = document.localStorage.getItem("RBX_BrowserFeatureOK")
+            if (alreadyChecked === "1") {
+                return Promise.resolve();
+            }
+        }catch (e) {}
+        
+        return Promise.all([
+            // feature check? more like safari check:
+            // - new-ish (unsupported) versions of safari don't have atomics
+            // - safari doesn't support simd yet
+            // and of course, wasm/atomics/simd won't work on old browsers either.
+            RBX_atomicsCheck(),
+            RBX_simdCheck(),
+            RBX_bulkMemoryCheck(),
+        ]).then(function (data) {
+            for (var i=0;i<data.length;i++) {
+                if (data[i] !== undefined)
+                    return data[i];
+            }
+            try {
+                window.localStorage.setItem("RBX_BrowserFeatureOK", "1");
+            } catch (e) {}
+            return undefined;
+        }).catch(function(err){
+            return featureErrorMessages.errDuringDetection;
+        })
+    }
+    
+    function RBX_bulkMemoryCheck() {
+        try {
+            return wasmFeatureDetect.bulkMemory().then(function (result) {
+                return result ? undefined : featureErrorMessages.bulkMemory;
+            })
+        }catch (e) {
+            return Promise.resolve(featureErrorMessages.bulkMemory);
+        }
+    }
+    
+    function RBX_atomicsCheck() {
+        try {
+            if (typeof window.Atomics === 'undefined')
+                return false;
+            var uint8 = new Uint8Array(8);
+            return Promise.resolve();
+        }catch (e) {
+            return Promise.resolve(featureErrorMessages.atomics);
+        }
+    }
+    
+    function RBX_simdCheck() {
+        try {
+            return wasmFeatureDetect.simd().then(function (result) {
+                return result ? undefined : featureErrorMessages.simd;
+            })
+        }catch (e) {
+            return Promise.resolve(featureErrorMessages.simd);
+        }
+    }
+     
+    function RBX_getUserConsent() {
+        var wrapper = document.createElement("div");
+        wrapper.setAttribute("class", "disclaimer-card");
+        
+        var yearSelectRow = document.createElement("div");
+        yearSelectRow.setAttribute("style", "width: 100%; margin-bottom: 25px; margin-top: 25px;");
+        
+        var yearSelection = document.createElement("select");
+        var yearOption2016 = document.createElement("option");
+        yearOption2016.setAttribute("value", "2016");
+        yearOption2016.innerText = "Core Script Year: 2016 (default)";
+        yearSelection.append(yearOption2016);
+        
+        var yearOption2014 = document.createElement("option");
+        yearOption2014.setAttribute("value", "2014");
+        yearOption2014.innerText = "Core Script Year: 2014";
+        yearSelection.append(yearOption2014);
+        
+        var touchSelectRow = document.createElement('div');
+        touchSelectRow.setAttribute('style', "width: 10)%; margin-bottom: 25px;");
+        var touchEnabled = document.createElement('select');
+        var selectOptionYes = document.createElement('option');
+        selectOptionYes.setAttribute('value', "true");
+        selectOptionYes.innerText = "Touch Controls Enabled";
+        var selectOptionNo = document.createElement('option');
+        selectOptionNo.setAttribute("value", "false");
+        selectOptionNo.innerText = "Touch Controls Disabled";
+        var previousTouchControlSetting = window.localStorage.getItem('rbx_touch_controls');
+        if (previousTouchControlSetting === '' || previousTouchControlSetting === undefined || previousTouchControlSetting === null) {
+            // Guess
+            previousTouchControlSetting = (('ontouchstart' in window) ||
+                                               (navigator.maxTouchPoints > 0) ||
+                                               (navigator.msMaxTouchPoints > 0)) ? "true" : "false"
+        }
+        if (previousTouchControlSetting === "true") {
+            selectOptionYes.setAttribute("selected", "selected");
+        }else{
+            selectOptionNo.setAttribute("selected", "selected");
+        }
+        touchEnabled.appendChild(selectOptionNo);
+        touchEnabled.appendChild(selectOptionYes);
+        touchSelectRow.appendChild(touchEnabled);
+        
+        
+        
+        
+        
+        var msaaSelectRow = document.createElement('div');
+        msaaSelectRow.setAttribute('style', "width: 10)%; margin-bottom: 85px;");
+        var msaaSetting = document.createElement('select');
+        var selectOptionMsaa0 = document.createElement('option');
+        selectOptionMsaa0.setAttribute('value', "0");
+        selectOptionMsaa0.innerText = "No MSAA";
+        var selectOptionMsaa2 = document.createElement('option');
+        selectOptionMsaa2.setAttribute("value", "2");
+        selectOptionMsaa2.innerText = "2x MSAA";
+        var selectOptionMsaa4 = document.createElement('option');
+        selectOptionMsaa4.setAttribute("value", "4");
+        selectOptionMsaa4.innerText = "4x MSAA";
+        var selectOptionMsaa8 = document.createElement('option');
+        selectOptionMsaa8.setAttribute("value", "8");
+        selectOptionMsaa8.innerText = "8x MSAA";
+        var previousMsaaSetting = window.localStorage.getItem('rbx_msaa');
+        switch (previousMsaaSetting) {
+            case "0":
+            default:
+                selectOptionMsaa0.setAttribute("selected", "selected");
+                break;
+            case "4":
+                selectOptionMsaa4.setAttribute("selected", "selected");
+                break;
+            case "2": 
+                selectOptionMsaa2.setAttribute("selected", "selected");
+                break;
+            case "8":
+                selectOptionMsaa8.setAttribute("selected", "selected");
+                break;
+        }
+        msaaSetting.appendChild(selectOptionMsaa0);
+        msaaSetting.appendChild(selectOptionMsaa2);
+        msaaSetting.appendChild(selectOptionMsaa4);
+        msaaSetting.appendChild(selectOptionMsaa8);
+        msaaSelectRow.appendChild(msaaSetting);
+        
+        
+        
+        var acceptButton = document.createElement("p");
+        acceptButton.setAttribute("class", "accept-button");
+        acceptButton.innerText = "Click to Start Game";
+        acceptButton.onclick = function(e) {
+            e.preventDefault();
+            window.RBXModule.yearSelection = yearSelection.value;
+            window.RBXModule.touchEnabled = touchEnabled.value === "true";
+            localStorage.setItem("rbx_touch_controls", touchEnabled.value.toString());
+            localStorage.setItem("rbx_msaa", msaaSetting.value.toString());
+            wrapper.remove();
+            
+            RBX_startGame();
+        }
+        
+        yearSelectRow.append(yearSelection);
+        wrapper.append(yearSelectRow);
+        
+        wrapper.append(touchSelectRow);
+        
+        wrapper.append(msaaSelectRow);
+        
+        wrapper.append(acceptButton);
+       
+        body.append(wrapper);
+    }
+    
+    function RBX_featureCheckThenGetConsent() {
+        RBX_featureCheck().then(function (errMessage) {
+           if (errMessage !== undefined) {               
+               var wrapper = document.createElement("div");
+               wrapper.setAttribute("class", "disclaimer-card");
+               var titleH = document.createElement("h2");
+               titleH.innerText = "Possibly unsupported browser";
+               wrapper.appendChild(titleH);
+               
+               var bodyP = document.createElement("p");
+               bodyP.innerText = "Your browser may not work correctly. A required feature is missing. Error Message:";
+               wrapper.appendChild(bodyP);
+               
+               var errMessageLabel = document.createElement("p");
+               errMessageLabel.setAttribute("style", "color: red;");
+               errMessageLabel.innerText = errMessage;
+               wrapper.appendChild(errMessageLabel);
+               
+               var ignoreLabel = document.createElement("p");
+               ignoreLabel.innerText = "Try to upgrade to a newer browser, such as a modern version of Chrome or Firefox. You can ignore this warning and the game may still work, however, it could also crash, cause your browser to lock up, just show a black screen, or work but run very slowly.";
+               ignoreLabel.setAttribute("style", "margin-top: 100px;");
+               wrapper.appendChild(ignoreLabel);
+               
+               var ignoreButton = document.createElement("button");
+               ignoreButton.innerText = "Ignore";
+               ignoreButton.onclick = function (e) {
+                   e.preventDefault();
+                   wrapper.remove();
+                   RBX_getUserConsent();
+               }
+               wrapper.appendChild(ignoreButton);
+               
+               document.body.appendChild(wrapper);
+           }else{
+               RBX_getUserConsent();
+           }
+        });
+    }
+    
+    function RBX_showDisclaimer() {
+        var wrapper = document.createElement("div");
+        wrapper.setAttribute("class", "disclaimer-card");
+
+        var header = document.createElement("h1");
+        header.innerText = "Disclaimer";
+        header.setAttribute("class", "disclaimer-header");
+        wrapper.append(header);
+
+        var text = document.createElement("p");
+        text.innerHTML = "Please read this notice - it'll only take a minute, and you'll only have to read it once.<br/><br/><ul>" + 
+        "<li>This is still an experimental project. Many features may not work as expected or will crash the game.</li>" +
+        "<li>Do NOT type or paste anything into the console unless you trust what you are entering. Anything pasted can steal your EconomySimulator account, IP, or other information.</li>" +
+        "<li>Although this is much safer than a native client, since the chances of severe exploits like RCE are low, there may still be other vulnerabilities (such as IP grabbers). You should use a VPN.</li>" +
+        "<li><span class=\"focal\">Chrome</span> (as well as forks like Brave and Microsoft Edge) and <span class='focal'>Firefox</span> are the only supported browsers. Safari will not work - the main problem is a lack of SIMD support, see: <a href=\"https://webassembly.org/roadmap\">webassembly.org/roadmap</a>.</li>" +
+        "<li>Browser keyboard shortcuts, such as CTRL+R (Page Reload), will not work while you are in-game.</li>" +
+        "<li>Navigating away from the page while in-game, e.g. to another tab, will probably disconnect you from the game. This is not intentional, it's just how browsers work.</li>" +
+        "</ul>";
+
+        text.setAttribute("class", "disclaimer-text");
+        wrapper.append(text);
+
+        var acceptButton = document.createElement("p");
+        acceptButton.setAttribute("class", "accept-button");
+        acceptButton.innerText = "I have read the above disclaimer";
+        acceptButton.onclick = function(e) {
+            e.preventDefault();
+            wrapper.remove();
+            localStorage.setItem("disclaimer-notice", "true,2");
+            RBX_featureCheckThenGetConsent();
+        }
+        wrapper.append(acceptButton);
+
+        body.append(wrapper);
+    }
+
+    if (disclaimerViewed) {
+        RBX_featureCheckThenGetConsent();
+    }else{
+        RBX_showDisclaimer();
+    }
+
+    window.onerror = function (msg, url, line) {
+        var message = "OUT=" + msg + "\nURL=" + url + "\nLINE=" + line + "\nINIT=" + didInitialize;
+        if (didInitialize) {
+            window.alert("An unexpected error occurred. The game may crash. Please report this issue: include your browser, browser version, operating system, and this message:\n" + message);
+        }else{
+            alert("Error loading runtime. Your browser may not be supported. If possible, please use the latest version of Chrome, Microsoft Edge, or Firefox.\nIf you are already using a supported browser, please report this issue: include your browser, browser version, operating system, and this message:\n" + message);
+        }
+        return false;
+    };
+    </script>
+</body>
+</html>
