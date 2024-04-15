@@ -2,3 +2,4 @@ This is the archive of my cached contents from my time on Economy Simulator ([ec
 
 The owner of economy simulator, Floatzel had discontinued it in 2023, however he made the source for the servers public for others to use. The client was not as fortunate, but the compiled webassembly is still floating around.
 If you're brave enough, you can try decompiling the client and get it running on your own servers, but I'm definitely not capable of this.
+If you want to host your own server, be wary of other people in the old roblox community. It's a very toxic place and you may not find the most trustworthy of people.
